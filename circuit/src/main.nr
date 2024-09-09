@@ -1,11 +1,12 @@
-fn main(x: Field, y: pub Field) {
-    assert(x != y);
+fn main(x: [Field; 2], y: [Field; 2], solution: Field) {
+    let out = dot_product(x,y);
+    assert(out == solution);
 }
 
-#[test]
-fn test_main() {
-    main(1, 2);
-
-    // Uncomment to make test fail
-    // main(1, 1);
+fn dot_product(x: [Field; 2], y: [Field; 2]) -> Field {
+    let mut out = 0;
+    for i in 0..2 {
+        out = out + x[i] * y[i];
+    }
+    out
 }
