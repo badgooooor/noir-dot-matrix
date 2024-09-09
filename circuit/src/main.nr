@@ -10,3 +10,13 @@ fn dot_product(x: [Field; 2], y: [Field; 2]) -> Field {
     }
     out
 }
+
+#[test]
+fn test_dot_correct() {
+    main([2,2], [2,1], 6)
+}
+
+#[test(should_fail)]
+fn test_dot_fail() {
+    main([2,2], [2,1], 5)
+}
