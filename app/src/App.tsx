@@ -7,7 +7,8 @@ import {
 import { WagmiProvider } from "wagmi";
 import { optimismSepolia } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import "./App.css";
+import { useState } from "react";
+import { DotMatrixInput } from "./components/DotMatrixInput";
 
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
@@ -19,11 +20,28 @@ const config = getDefaultConfig({
 const queryClient = new QueryClient();
 
 function App() {
+  const [input, setInput] = useState([
+    [0, 0],
+    [0, 0],
+  ]);
+
+  const onValueChange = (value: number, i: number, j: number) => {
+    setInput((prev) => {
+      const updateValue = prev;
+      updateValue[i][j] = value;
+
+      return [...updateValue];
+    });
+  };
+
+  console.log("asdfdsf", input);
+
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
           <ConnectButton />
+          <DotMatrixInput input={input} onValueChange={onValueChange} />
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
