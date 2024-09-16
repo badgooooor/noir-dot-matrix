@@ -11,7 +11,6 @@ import { useState } from "react";
 import { DotMatrixInput } from "./components/DotMatrixInput";
 import { barrentenberg, noir } from "./instances/barrenterberg";
 import { ProofData } from "@noir-lang/backend_barretenberg";
-import { InitWasm } from "./components/InitWasm";
 
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
@@ -55,17 +54,15 @@ function App() {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <InitWasm>
-            <ConnectButton />
-            <DotMatrixInput input={input} onValueChange={onValueChange} />
-            <button
-              onClick={async () => {
-                await generateProof();
-              }}
-            >
-              Generate proof
-            </button>
-          </InitWasm>
+          <ConnectButton />
+          <DotMatrixInput input={input} onValueChange={onValueChange} />
+          <button
+            onClick={async () => {
+              await generateProof();
+            }}
+          >
+            Generate proof
+          </button>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

@@ -7,8 +7,8 @@ import fs from 'fs'
 
 const wasmContentTypePlugin = {
   name: 'wasm-content-type-plugin',
-  configureServer(server) {
-    server.middlewares.use(async (req, res, next) => {
+  configureServer(server: any) {
+    server.middlewares.use(async (req: any, res: any, next: any) => {
       if (req.url.endsWith('.wasm')) {
         res.setHeader('Content-Type', 'application/wasm');
         const newPath = req.url.replace('deps', 'dist');
@@ -38,9 +38,9 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       copy({
-        targets: [
-          { src: 'node_modules/@noir-lang/noir_wasm/noir_wasm_bg.wasm', dest: 'public' },
-        ],
+        targets: [{ src: 'node_modules/**/*.wasm', dest: 'node_modules/.vite/dist' }],
+        copySync: true,
+        hook: 'buildStart',
       }),
       command === 'serve' ? wasmContentTypePlugin : [],
       react()
