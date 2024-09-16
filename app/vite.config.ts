@@ -1,8 +1,9 @@
+/* eslint-disable */
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import copy from 'rollup-plugin-copy'
-import fs from 'fs'
 import path from 'path'
+import fs from 'fs'
 
 const wasmContentTypePlugin = {
   name: 'wasm-content-type-plugin',
@@ -18,8 +19,7 @@ const wasmContentTypePlugin = {
       next();
     });
   },
-}
-
+};
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -33,16 +33,22 @@ export default defineConfig(({ command }) => {
     optimizeDeps: {
       esbuildOptions: {
         target: 'esnext'
-      }
+      },
+      exclude: ['@noir-lang/noir_wasm'],
     },
     plugins: [
       copy({
-        targets: [{ src: 'node_modules/**/*.wasm', dest: 'node_modules/.vite/dist' }],
-        copySync: true,
-        hook: 'buildStart',
+        targets: [
+          { src: 'node_modules/@noir-lang/noir_wasm/noir_wasm_bg.wasm', dest: 'public' },
+        ],
       }),
       command === 'serve' ? wasmContentTypePlugin : [],
       react()
     ],
+    server: {
+      fs: {
+        strict: false,
+      },
+    },
   }
 })
